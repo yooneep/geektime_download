@@ -293,7 +293,7 @@ public class HttpUtil {
             });
             SSLContext sslContext = sslContextBuilder.build();
             SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext,
-                    new String[]{"SSLv2Hello", "SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2"}, // 支持的https安全认证协议
+                    new String[]{"SSLv2Hello", "SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"}, // 支持的https安全认证协议
                     null, NoopHostnameVerifier.INSTANCE);
             return sslConnectionSocketFactory;
         } catch (Exception e) {

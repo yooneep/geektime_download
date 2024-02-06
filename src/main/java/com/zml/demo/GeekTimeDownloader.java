@@ -9,7 +9,9 @@ import com.zml.demo.util.HttpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -25,8 +27,8 @@ public class GeekTimeDownloader {
     public static final String articlesUrl = "https://time.geekbang.org/serv/v1/column/articles";
     public static final String infoUrl = "https://time.geekbang.org/serv/v3/column/info";
     public static String cookies = CommonConstant.cookies;
-    public static final String cid = "100026001";
-    public static final String filePath = "D:\\github_projects\\geektime_download\\article";
+    public static final String cid = "100637501";
+    public static final String filePath = "/Users/pangning/geek/";
     public static final Integer interval = 2000;
 
     public static void main(String[] args) {
@@ -46,6 +48,7 @@ public class GeekTimeDownloader {
         data.put("sample", false);
         data.put("size", 500);
         String result = geekRequest(articlesUrl, data, cookies);
+        System.out.println(result);
         JSONObject jsonObject = JSONObject.parseObject(result);
         JSONObject dataJSON = jsonObject.getJSONObject("data");
         JSONArray list = dataJSON.getJSONArray("list");
@@ -70,28 +73,30 @@ public class GeekTimeDownloader {
             log.info("{}已存在，跳过!", head);
         }
 
-
+        Collections.reverse(list);
         //循环生成文章
-        list.forEach(obj -> {
-            JSONObject jsonObject1 = (JSONObject) obj;
-            String id = jsonObject1.getString("id");
-            String article_title = jsonObject1.getString("article_title");
+        list.stream().forEach(obj -> {
+            try {
+                JSONObject jsonObject1 = (JSONObject) obj;
+                String id = jsonObject1.getString("id");
+                String article_title = jsonObject1.getString("article_title");
 
-            String audio_download_url = jsonObject1.getString("audio_download_url");
-            String audio_title = jsonObject1.getString("audio_title");
+                String audio_download_url = jsonObject1.getString("audio_download_url");
+                String audio_title = jsonObject1.getString("audio_title");
 
-            //文件名
-            String fileName = getFileName(article_title);
-            if(!FileUtil.isExist(path,fileName)){
-                String fileNamePath = path + File.separator + fileName;
-                String article = article(id);
-                Html2MDUtil.convert(article, fileNamePath, true);
-                log.info("保存:{}成功!", fileName);
-            }else{
-                log.info("{}已存在，跳过!", fileName);
+                //文件名
+                String fileName = getFileName(article_title);
+                if(!FileUtil.isExist(path,fileName)){
+                    String fileNamePath = path + File.separator + fileName;
+                    String article = article(id);
+                    Html2MDUtil.convert(article, fileNamePath, true);
+                    log.info("保存:{}成功!", fileName);
+                }else{
+                    log.info("{}已存在，跳过!", fileName);
+                }
+            } catch (Exception e) {
+                log.error("error ",e);
             }
-//            com.zml.demo.utils.FileUtils.write(article,path,fileName);
-
         });
         log.info("完成!");
     }
@@ -119,6 +124,7 @@ public class GeekTimeDownloader {
         data.put("product_id", id);
         data.put("with_recommend_article", true);
         String result = geekRequest(infoUrl, data, cookies);
+        System.out.println(result);
         JSONObject jsonObject = JSONObject.parseObject(result);
         JSONObject dataJSON = jsonObject.getJSONObject("data");
         String title = dataJSON.getString("title");
@@ -131,11 +137,11 @@ public class GeekTimeDownloader {
         header.put("Cookie", cookies);
         header.put("Origin", "https://time.geekbang.org");
         header.put("Host", "time.geekbang.org");
-        header.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36");
+        header.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15");
         header.put("Content-Type", "text/plain");
         header.put("Origin", "https://time.geekbang.org");
         String result = HttpUtil.postJson(url, header, data);
-        log.info(result);
+        log.info(result + " request:" + data);
         sleep();
         return result;
     }

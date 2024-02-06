@@ -14,17 +14,17 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId> e-iceblue </groupId>
-            <artifactId>spire.doc</artifactId>
-            <version>3.9.4</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>e-iceblue</groupId>-->
+<!--            <artifactId>spire.doc</artifactId>-->
+<!--            <version>11.9.5</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId> e-iceblue </groupId>
-            <artifactId>spire.pdf</artifactId>
-            <version>3.11.6</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>e-iceblue</groupId>-->
+<!--            <artifactId>spire.pdf</artifactId>-->
+<!--            <version>9.1.4</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -63,10 +63,14 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>com.e-iceblue</id>
-            <url>https://repo.e-iceblue.cn/repository/maven-public/</url>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--&lt;!&ndash;        <repository>&ndash;&gt;-->
+<!--&lt;!&ndash;            <id>com.e-iceblue1</id>&ndash;&gt;-->
+<!--&lt;!&ndash;            <url>https://repo.spring.io/libs-release</url>&ndash;&gt;-->
+<!--&lt;!&ndash;        </repository>&ndash;&gt;-->
+<!--        <repository>-->
+<!--            <id>com.e-iceblue</id>-->
+<!--            <url>https://repo.e-iceblue.cn/repository/maven-public</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 </project>
