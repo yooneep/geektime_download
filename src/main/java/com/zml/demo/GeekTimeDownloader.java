@@ -27,7 +27,7 @@ public class GeekTimeDownloader {
     public static final String articlesUrl = "https://time.geekbang.org/serv/v1/column/articles";
     public static final String infoUrl = "https://time.geekbang.org/serv/v3/column/info";
     public static String cookies = CommonConstant.cookies;
-    public static final String cid = "100637501";
+    public static final String cid = "100636401";
     public static final String filePath = "/Users/pangning/geek/";
     public static final Integer interval = 2000;
 
@@ -73,7 +73,7 @@ public class GeekTimeDownloader {
             log.info("{}已存在，跳过!", head);
         }
 
-        Collections.reverse(list);
+//        Collections.reverse(list);
         //循环生成文章
         list.stream().forEach(obj -> {
             try {
