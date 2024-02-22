@@ -23,11 +23,11 @@ import java.util.Random;
  */
 public class GeekTimeDownloader {
     public static Logger log = LoggerFactory.getLogger(GeekTimeDownloader.class);
+    public static final String cid = "100121701";
     public static final String articleUrl = "https://time.geekbang.org/serv/v1/article";
     public static final String articlesUrl = "https://time.geekbang.org/serv/v1/column/articles";
     public static final String infoUrl = "https://time.geekbang.org/serv/v3/column/info";
     public static String cookies = CommonConstant.cookies;
-    public static final String cid = "100636401";
     public static final String filePath = "/Users/pangning/geek/";
     public static final Integer interval = 2000;
 
@@ -73,7 +73,7 @@ public class GeekTimeDownloader {
             log.info("{}已存在，跳过!", head);
         }
 
-//        Collections.reverse(list);
+        Collections.reverse(list);
         //循环生成文章
         list.stream().forEach(obj -> {
             try {
@@ -137,7 +137,7 @@ public class GeekTimeDownloader {
         header.put("Cookie", cookies);
         header.put("Origin", "https://time.geekbang.org");
         header.put("Host", "time.geekbang.org");
-        header.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15");
+        header.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15");
         header.put("Content-Type", "text/plain");
         header.put("Origin", "https://time.geekbang.org");
         String result = HttpUtil.postJson(url, header, data);
