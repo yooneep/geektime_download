@@ -5,6 +5,7 @@ package com.zml.demo.util; /**
  */
 
 import com.alibaba.fastjson.JSON;
+import com.zml.demo.constant.CommonConstant;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -34,7 +35,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -46,7 +51,7 @@ import java.util.Map;
  */
 public class HttpUtil {
 
-    public static Logger log  = LoggerFactory.getLogger(HttpUtil.class);
+    public static Logger log = LoggerFactory.getLogger(HttpUtil.class);
     /**
      * 请求连接构造对象
      */
@@ -76,7 +81,6 @@ public class HttpUtil {
      * 数据响应超时时间
      */
     private static final int SOCKET_TIMEOUT = 10000;
-
 
 
     static {
@@ -111,8 +115,9 @@ public class HttpUtil {
 
 
     /**
-     *  执行get请求（网页）
-     * @param url 请求地址(含有特殊符号需要URLEncoder编码)
+     * 执行get请求（网页）
+     *
+     * @param url     请求地址(含有特殊符号需要URLEncoder编码)
      * @param headers 请求头参数
      * @return 响应数据
      */
@@ -122,7 +127,7 @@ public class HttpUtil {
         HttpGet httpGet = new HttpGet(url);
 
         // 请求头设置，如果常用的请求头设置，也可以写死，特殊的请求才传入
-        httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36 Edg/94.0.992.38");
+        httpGet.setHeader("User-Agent", CommonConstant.userAgent);
         if (headers != null) {
             for (String headerKey : headers.keySet()) {
                 httpGet.setHeader(headerKey, headers.get(headerKey));
@@ -133,7 +138,7 @@ public class HttpUtil {
         try {
             response = closeableHttpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode== HttpStatus.SC_OK) { // 请求响应成功
+            if (statusCode == HttpStatus.SC_OK) { // 请求响应成功
                 HttpEntity entity = response.getEntity();
                 return EntityUtils.toString(entity, StandardCharsets.UTF_8);
             } else {
@@ -141,7 +146,7 @@ public class HttpUtil {
             }
         } catch (Exception e) {
             log.error("请求地址({})失败", url, e);
-            throw new RuntimeException("请求地址("+url+")失败");
+            throw new RuntimeException("请求地址(" + url + ")失败");
         } finally {
             HttpClientUtils.closeQuietly(response);
         }
@@ -149,8 +154,9 @@ public class HttpUtil {
     }
 
     /**
-     *  执行post请求（form表单）
-     * @param url 请求地址
+     * 执行post请求（form表单）
+     *
+     * @param url     请求地址
      * @param headers 请求头参数
      * @return 响应数据
      */
@@ -158,7 +164,7 @@ public class HttpUtil {
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
         HttpPost httpPost = new HttpPost(url);
         // 请求头设置，如果常用的请求头设置，也可以写死，特殊的请求才传入
-        httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36 Edg/94.0.992.38");
+        httpPost.setHeader("User-Agent", CommonConstant.userAgent);
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         if (headers != null) {
             for (String headerKey : headers.keySet()) {
@@ -167,7 +173,7 @@ public class HttpUtil {
         }
 
         // 设置请求参数
-        if (params!=null) {
+        if (params != null) {
             List<NameValuePair> nvList = new ArrayList<>(params.size());
             for (String paramKey : params.keySet()) {
                 NameValuePair nv = new BasicNameValuePair(paramKey, params.get(paramKey));
@@ -181,7 +187,7 @@ public class HttpUtil {
         try {
             response = closeableHttpClient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode== HttpStatus.SC_OK) { // 请求响应成功
+            if (statusCode == HttpStatus.SC_OK) { // 请求响应成功
                 HttpEntity entity = response.getEntity();
                 return EntityUtils.toString(entity, StandardCharsets.UTF_8);
             } else {
@@ -189,7 +195,7 @@ public class HttpUtil {
             }
         } catch (IOException e) {
             log.error("请求地址({})失败", url, e);
-            throw new RuntimeException("请求地址("+url+")失败");
+            throw new RuntimeException("请求地址(" + url + ")失败");
         } finally {
             HttpClientUtils.closeQuietly(response);
         }
@@ -197,8 +203,9 @@ public class HttpUtil {
     }
 
     /**
-     *  执行post请求（接口）
-     * @param url 请求地址
+     * 执行post请求（接口）
+     *
+     * @param url     请求地址
      * @param headers 请求头参数
      * @return 响应数据
      */
@@ -215,7 +222,7 @@ public class HttpUtil {
         try {
             response = closeableHttpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode== HttpStatus.SC_OK) { // 请求响应成功
+            if (statusCode == HttpStatus.SC_OK) { // 请求响应成功
                 HttpEntity entity = response.getEntity();
                 return EntityUtils.toString(entity, StandardCharsets.UTF_8);
             } else {
@@ -223,7 +230,7 @@ public class HttpUtil {
             }
         } catch (IOException e) {
             log.error("请求地址({})失败", url, e);
-            throw new RuntimeException("请求地址("+url+")失败");
+            throw new RuntimeException("请求地址(" + url + ")失败");
         } finally {
             HttpClientUtils.closeQuietly(response);
         }
@@ -231,8 +238,9 @@ public class HttpUtil {
     }
 
     /**
-     *  执行post请求（接口）
-     * @param url 请求地址
+     * 执行post请求（接口）
+     *
+     * @param url     请求地址
      * @param headers 请求头参数
      * @return 响应数据
      */
@@ -246,7 +254,7 @@ public class HttpUtil {
                 httpPost.setHeader(headerKey, headers.get(headerKey));
             }
         }
-        if (params!=null) {
+        if (params != null) {
             HttpEntity paramEntity = new StringEntity(JSON.toJSONString(params), StandardCharsets.UTF_8);
             httpPost.setEntity(paramEntity);
 //            httpPost.setHeader("Content-Length",paramEntity.getContentLength()+"");
@@ -257,13 +265,13 @@ public class HttpUtil {
         try {
             response = closeableHttpClient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode== HttpStatus.SC_OK) { // 请求响应成功
+            if (statusCode == HttpStatus.SC_OK) { // 请求响应成功
                 HttpEntity entity = response.getEntity();
                 return EntityUtils.toString(entity, StandardCharsets.UTF_8);
             } else {
                 log.error("请求地址({})失败:{}", url, statusCode);
                 HttpEntity entity = response.getEntity();
-                if(entity!=null){
+                if (entity != null) {
                     String s = EntityUtils.toString(entity, StandardCharsets.UTF_8);
                     log.error("返回信息:{}", s);
                 }
@@ -271,7 +279,42 @@ public class HttpUtil {
             }
         } catch (IOException e) {
             log.error("请求地址({})失败", url, e);
-            throw new RuntimeException("请求地址("+url+")失败");
+            throw new RuntimeException("请求地址(" + url + ")失败");
+        } finally {
+            HttpClientUtils.closeQuietly(response);
+        }
+        return null;
+    }
+
+
+    public static String downloadFile(String url, String saveFilePath) {
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
+        CloseableHttpResponse response = null;
+        try {
+            response = closeableHttpClient.execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) { // 请求响应成功
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    try (InputStream inputStream = entity.getContent()) {
+                        Path savePath = Paths.get(saveFilePath);
+                        Path parentDir = savePath.getParent();
+                        if (parentDir != null && !Files.exists(parentDir)) {
+                            Files.createDirectories(parentDir);
+                        }
+                        Files.copy(inputStream, savePath);
+                        System.out.println("文件已保存到: " + saveFilePath);
+                    }
+                } else {
+                    System.out.println("没有找到文件，服务器响应代码: " + statusCode);
+                }
+            } else {
+                log.error("请求地址({})失败:{}", url, statusCode);
+            }
+        } catch (IOException e) {
+            log.error("请求地址({})失败", url, e);
+            throw new RuntimeException("请求地址(" + url + ")失败");
         } finally {
             HttpClientUtils.closeQuietly(response);
         }
@@ -280,6 +323,7 @@ public class HttpUtil {
 
     /**
      * 构建https安全连接工厂
+     *
      * @return 安全连接工厂
      */
     private static ConnectionSocketFactory trustHttpsCertificates() {

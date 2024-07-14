@@ -17,24 +17,23 @@ import java.io.IOException;
  * @description:
  */
 public class Html2MDUtil {
-    public static Logger log  = LoggerFactory.getLogger(Html2MDUtil.class);
+    public static Logger log = LoggerFactory.getLogger(Html2MDUtil.class);
 
     /**
-     *
      * @param content
      * @param outputFile
-     * @param cover 是否覆盖文件
+     * @param cover      是否覆盖文件
      */
-    public static void convert(String content,String outputFile,boolean cover){
+    public static void convert(String content, String outputFile, boolean cover) {
 
-        try{
+        try {
             DocumentConverter converter = new DocumentConverter(Options.markdown());
 //            Document doc = Jsoup.parse(new File("D:\\github_projects\\geektime_download\\output\\test.html"), "utf-8");
             Document doc = Jsoup.parse(content);
 
             File file = new File(outputFile);
-            if(file.exists()&&!cover){
-                log.info("文件{}已存在,跳过...",outputFile);
+            if (file.exists() && !cover) {
+                log.info("文件{}已存在,跳过...", outputFile);
                 return;
             }
             if (!file.getParentFile().exists()) {
@@ -43,16 +42,17 @@ public class Html2MDUtil {
             file.createNewFile();
             // creates a FileWriter Object
             FileWriter writer = new FileWriter(file);
-            converter.convert(doc,writer);
+            converter.convert(doc, writer);
 
 //        writer.write(article_content);
             writer.flush();
             writer.close();
-        }catch (Exception e){
-            log.error("html转换markdown异常",e);
+        } catch (Exception e) {
+            log.error("html转换markdown异常", e);
         }
 
     }
+
     public static void main(String[] args) throws IOException {
 
         DocumentConverter converter = new DocumentConverter(Options.markdown());
@@ -61,7 +61,7 @@ public class Html2MDUtil {
         file.createNewFile();
         // creates a FileWriter Object
         FileWriter writer = new FileWriter(file);
-        converter.convert(doc,writer);
+        converter.convert(doc, writer);
 
 //        writer.write(article_content);
         writer.flush();
