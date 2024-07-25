@@ -1,11 +1,11 @@
-package com.zml.demo.util; /**
+package com.geekdoc.download.util; /**
  * @author: zhumlu@yonyou.com
  * @date: 2022/2/26 16:52
  * @description:
  */
 
 import com.alibaba.fastjson.JSON;
-import com.zml.demo.constant.CommonConstant;
+import com.geekdoc.download.constant.CommonConstant;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
