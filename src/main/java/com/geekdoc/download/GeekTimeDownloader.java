@@ -37,13 +37,13 @@ public class GeekTimeDownloader {
 //        Collection<String> strings = CollectionUtils.removeAll(cids2, cids1);
 //        System.out.println(strings.stream().distinct().count());
         cids2.stream().distinct().sorted()
-//                .filter(p -> p.compareTo("100024701") > 0)
+//                .filter(p -> !p.equals("100017001"))
                 .forEach(cid -> articles(cid));
 //                .forEach(cid -> articles(cid));
 //        List<String> cids1 = getCids();
 //        System.out.println(JSONObject.toJSONString(cids1.size()));
 //        System.out.println(JSONObject.toJSONString(cids1));
-//        articles(cid);
+//        articles("100781001");
 //        cids2.stream().sorted().forEach(cid -> articles(cid));
         Thread.sleep(10000000000L);
     }
@@ -82,7 +82,7 @@ public class GeekTimeDownloader {
         JSONObject jsonObject = JSONObject.parseObject(result);
         JSONObject dataJSON = jsonObject.getJSONObject("data");
         JSONArray list = dataJSON.getJSONArray("list");
-        boolean needmp3 = list.size() < 66;
+        boolean needmp3 = false;
         //文件目录
         String path = filePath + File.separator + cid + "_" + info;
         String newPath = filePath + File.separator + cid + "_" + info + "-[" + list.size() + "]";
