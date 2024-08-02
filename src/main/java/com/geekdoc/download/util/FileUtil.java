@@ -57,6 +57,35 @@ public class FileUtil {
     }
 
     public static String replace(String str) {
-        return str.replace("|", "_").replace("｜", "").replace(" ", "").replace("/", "");
+        return str.replace("|", "").replace("｜", "").replace(" ", "").replace("/", "");
+    }
+
+    public static void renameFilesInDirectory(File directory) {
+        File[] files = directory.listFiles();
+
+        if (files == null) {
+            System.out.println("The directory is empty or an error occurred.");
+            return;
+        }
+
+        for (File file : files) {
+            if (file.isFile()) {
+                String originalName = file.getName();
+                String newName = originalName.replaceAll("[第讲]", "");
+
+                if (!originalName.equals(newName)) {
+                    File newFile = new File(directory, newName);
+                    if (file.renameTo(newFile)) {
+                        System.out.println("Renamed: " + originalName + " -> " + newName);
+                    } else {
+                        System.out.println("Failed to rename: " + originalName);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        renameFilesInDirectory(new File("/Users/pangning/geektime/md/100007201_从0开始学游戏开发_蔡能-[42]"));
     }
 }

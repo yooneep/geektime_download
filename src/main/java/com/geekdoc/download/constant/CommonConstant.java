@@ -12,12 +12,14 @@ import java.util.List;
  */
 public class CommonConstant {
     public static final String articleUrl = "https://time.geekbang.org/serv/v1/article";
+
+    public static final String chapterUrl = "https://time.geekbang.org/serv/v1/column/chapter";
     public static final String articlesUrl = "https://time.geekbang.org/serv/v1/column/articles";
     public static final String infoUrl = "https://time.geekbang.org/serv/v3/column/info";
     public static final String productList = "https://time.geekbang.org/serv/v4/pvip/product_list";
-    public static final String filePath = "/Users/pangning/geek/";
+    public static final String filePath = "/Users/pangning/geektime/";
     public static String cookies;
-    public static final String request = "{\"tag_ids\":[],\"product_type\":0,\"product_form\":1,\"pvip\":0,\"prev\":9,\"size\":20,\"sort\":4,\"with_articles\":true}";
+    public static final String request = "{\"tag_ids\":[],\"product_type\":0,\"product_form\":1,\"pvip\":0,\"prev\":9,\"size\":20,\"sort\":1,\"with_articles\":true}";
 
     static {
         URL resource = CommonConstant.class.getClassLoader().getResource("cookies");
