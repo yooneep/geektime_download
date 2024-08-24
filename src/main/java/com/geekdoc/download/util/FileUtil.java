@@ -55,8 +55,12 @@ public class FileUtil {
         return str == null ? null : FilePattern.matcher(str).replaceAll("");
     }
 
+
     public static String replace(String str) {
-        return str.replace("|", "").replace("｜", "").replace(" ", "").replace("/", "");
+        return str.replaceAll("\\|", "")
+                .replaceAll("\\｜", "")
+                .replaceAll("\\s", "")
+                .replaceAll("\\/", "");
     }
 
     public static void renameFilesInDirectory(File directory) {
@@ -85,6 +89,10 @@ public class FileUtil {
     }
 
     public static void main(String[] args) {
-        renameFilesInDirectory(new File("/Users/pangning/geektime/md/100007201_从0开始学游戏开发_蔡能-[42]"));
+
+        String replace = replace("");
+        System.out.println(replace);
+
+//        renameFilesInDirectory(new File("/Users/pangning/geektime/md/100007201_从0开始学游戏开发_蔡能-[42]"));
     }
 }
