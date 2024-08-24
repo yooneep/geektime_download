@@ -39,7 +39,6 @@ public class FileUtil {
     }
 
     public static boolean isExist(String path, String fileName) {
-        fileName = replace(fileName);
         String pathName = path + File.separator + fileName;
         try {
             File file = new File(pathName);

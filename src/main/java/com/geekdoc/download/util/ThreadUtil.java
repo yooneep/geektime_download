@@ -9,7 +9,7 @@ public class ThreadUtil {
     private static final int CORE_POOL_SIZE = 4;
     private static final int MAX_POOL_SIZE = 8;
     private static final long KEEP_ALIVE_TIME = 60L;
-    private static final int QUEUE_CAPACITY = 2048;
+    private static final int QUEUE_CAPACITY = 10240;
 
     private static ExecutorService executorService = new ThreadPoolExecutor(
             CORE_POOL_SIZE,
