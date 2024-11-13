@@ -178,7 +178,7 @@ public class GeekTimeDownloader {
                         sb.append("[").append(fileName).append("]").append("(").append("./").append(fileName).append(")").append("\n");
                     });
             FileUtil.write(sb.toString(), mdPath, head);
-            log.info("更新目录:{}成功!", head);
+//            log.info("更新目录:{}成功!", head);
         }
         if (list.size() > 200) {
             log.error("======================= list.size()>200 =======================" + info);
@@ -198,7 +198,7 @@ public class GeekTimeDownloader {
         for (int i = 0; i < list.size(); i++) {
             saveArticle((JSONObject) list.get(i), mdPath, mp3Path, i, needmp3, idTitleMap);
         }
-        log.info("完成!");
+//        log.info("完成!");
     }
 
     private static String getMp3Info(JSONObject obj) {
