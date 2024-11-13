@@ -1,8 +1,11 @@
 package com.geekdoc.download.constant;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,9 +22,10 @@ public class CommonConstant {
     public static final String productList = "https://time.geekbang.org/serv/v4/pvip/product_list";
 
     public static final String chapters = "https://time.geekbang.org/serv/v1/chapters";
-    public static final String filePath = "/Users/pangning/geektime/";
+    public static final String filePath = "/Users/pangning/geektime1/";
     public static String cookies;
     public static final String request = "{\"tag_ids\":[],\"product_type\":0,\"product_form\":1,\"pvip\":0,\"prev\":9,\"size\":20,\"sort\":1,\"with_articles\":true}";
+    public static List<String> lessonList = new ArrayList<>();
 
     static {
         URL resource = CommonConstant.class.getClassLoader().getResource("cookies");
@@ -29,6 +33,16 @@ public class CommonConstant {
             List<String> lines = Files.readAllLines(Paths.get(resource.toURI()));
             cookies = lines.get(0);
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            URL resource1 = CommonConstant.class.getClassLoader().getResource("lesson");
+            List<String> lines = Files.readAllLines(Paths.get(resource1.toURI()));
+            lessonList = lines;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }

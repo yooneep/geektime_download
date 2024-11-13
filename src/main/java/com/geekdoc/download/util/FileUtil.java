@@ -3,7 +3,9 @@ package com.geekdoc.download.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.regex.Pattern;
 
@@ -36,6 +38,28 @@ public class FileUtil {
             log.error("写入文件异常:", e);
         }
 
+    }
+
+    public static int readFile(String path, String fileName) {
+        int i = 0;
+        String pathName = path + File.separator + fileName;
+        try {
+            File file = new File(pathName);
+            if (!file.exists()) {
+                return i;
+            }
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.contains("http")) {
+                    i++;
+                }
+            }
+        } catch (Exception e) {
+            log.error("写入文件异常:", e);
+        }
+        return i;
     }
 
     public static boolean isExist(String path, String fileName) {

@@ -42,8 +42,9 @@ public class Html2MDUtil {
             file.createNewFile();
             // creates a FileWriter Object
             FileWriter writer = new FileWriter(file);
-            converter.convert(doc, writer);
-
+            String convert = converter.convert(doc);
+            String cleanedMarkdown = cleanExtraAsterisks(convert);
+            writer.write(cleanedMarkdown);
 //        writer.write(article_content);
             writer.flush();
             writer.close();
@@ -51,6 +52,12 @@ public class Html2MDUtil {
             log.error("html转换markdown异常", e);
         }
 
+    }
+
+    private static String cleanExtraAsterisks(String convert) {
+        String cleaned = convert.replaceAll("\\*\\*\\*\\*", "");
+        // 移除多余的前后空白并返回
+        return cleaned.trim();
     }
 
     public static void main(String[] args) throws IOException {
