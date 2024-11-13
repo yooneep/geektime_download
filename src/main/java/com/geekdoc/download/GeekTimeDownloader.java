@@ -139,6 +139,7 @@ public class GeekTimeDownloader {
         for (File file : files) {
             if(file.getName().contains(info)){
                 file.renameTo(new File(mdPath));
+                log.info("更新目录:{}成功!", info);
                 break;
             }
         }
@@ -177,7 +178,7 @@ public class GeekTimeDownloader {
                         sb.append("[").append(fileName).append("]").append("(").append("./").append(fileName).append(")").append("\n");
                     });
             FileUtil.write(sb.toString(), mdPath, head);
-            log.info("保存:{}成功!", head);
+            log.info("更新目录:{}成功!", head);
         }
         if (list.size() > 200) {
             log.error("======================= list.size()>200 =======================" + info);
